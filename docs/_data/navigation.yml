@@ -1,6 +1,8 @@
 header:
   # - title:      Home
   #   url:        /home/
+  - title:      笔记
+    url:        /notes/quick-start
   - title:      随笔
     url:        /docs/zh/quick-start
   # - title:      Samples
@@ -11,6 +13,14 @@ header:
     url:        /about.html
   # - title:      GitHub
   #   url:        https://github.com/kitian616/jekyll-TeXt-theme
+
+notes:
+  - title: 读书笔记
+    children:
+      - title:  快速开始
+        url:    /notes/quick-start
+      - title:  从 1.x 升级到 2.x
+        url:    /notes/update-form-1-to-2
 
 docs-zh:
   - title:      开始
