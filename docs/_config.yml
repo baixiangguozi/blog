@@ -177,8 +177,8 @@ collections_dir: docs
 collections:
   docs:
     output: true
-  # page:
-  #   output: true
+  page:
+    output: true
   # articles:
   #   output: true
   # languages:
