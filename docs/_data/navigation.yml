@@ -17,12 +17,12 @@ header:
 notes:
   - title: 读书笔记
     children:
-      - title:  快速开始
+      - title:  Java8函数式编程
         url:    /notes/Java8函数式编程
-      - title:  从 1.x 升级到 2.x
-        url:    /notes/update-form-1-to-2
-      - title:  配置
-        url:    /notes/configuration
+      - title:  Java8实战
+        url:    /notes/Java8实战
+      # - title:  配置
+      #   url:    /notes/configuration
 
 docs-zh:
   - title:      开始
