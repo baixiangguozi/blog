@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T02:54:52+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T03:04:17+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -371,8 +371,8 @@
    <span class="n">BinaryOperator</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">addExplicit</span> <span class="o">=</span> <span class="o">(</span><span class="n">Long</span> <span class="n">x</span><span class="o">,</span> <span class="n">Long</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>
 </code></pre></div></div>
 
-<p>**目标类型是指 Lambda 表达式所在上下文环境的类型。比如，将 Lambda 表达式赋值给一个局部变量，
-或传递给一个方法作为参数，局部变量或方法参数的类型就是 Lambda 表达式的目标类型。{:.info}</p>
+<p class="info">**目标类型是指 Lambda 表达式所在上下文环境的类型。比如，将 Lambda 表达式赋值给一个局部变量，
+或传递给一个方法作为参数，局部变量或方法参数的类型就是 Lambda 表达式的目标类型。</p>
 
 <h3 id="23-引用值而不是变量">2.3 引用值，而不是变量</h3>
 
@@ -394,7 +394,11 @@
    <span class="n">button</span><span class="o">.</span><span class="na">addActionListener</span><span class="o">(</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hi "</span> <span class="o">+</span> <span class="n">name</span><span class="o">));</span>
 </code></pre></div></div>
 
-<p>**Lambda 表达式中引用的局部变量必须是 final 或既成事实上的 final 变量。{:.info}</p>
+<p class="info">**Lambda 表达式中引用的局部变量必须是 final 或既成事实上的 final 变量。</p>
+
+<h3 id="24-函数接口">2.4 函数接口</h3>
+
+<p><strong>函数接口是只有一个抽象方法的接口，用作 Lambda 表达式的类型。</strong></p>
 
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
@@ -475,7 +479,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T02:54:52+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T03:04:17+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
