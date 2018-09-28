@@ -1,5 +1,14 @@
 <!DOCTYPE html><html lang="zh">
-  <head><meta charset="utf-8">
+  <head><!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126640458-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-126640458-1');
+		
+	</script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>关于 - 百香果Blog</title>
 
@@ -391,7 +400,20 @@
       });
     });
   });
-})();</script></div><section class="page__comments"></section></article>
+})();</script></div><section class="page__comments"><div id="js-gitalk-container"></div><script>
+		window.Lazyload.css('https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css');
+		window.Lazyload.js('https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js', function() {
+			var gitalk = new Gitalk({
+				clientID: '5fdc182de437d23fb0fd',
+				clientSecret: '7eee723700195a401297a06d194f6708d1e90aea',
+				repo: 'blog',
+				owner: 'baixiangguozi',
+				admin: ['baixiangguozi'],
+				id: 'page-about'
+			});
+			gitalk.render('js-gitalk-container');
+		});
+	</script></section></article>
             </div>
           </div></div></div>
 
