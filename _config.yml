@@ -169,6 +169,7 @@ exclude:
   - /screenshots
   - /test
   - /vendor
+  - /suibi
 
 defaults:
   - scope:
