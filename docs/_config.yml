@@ -34,12 +34,12 @@ timezone: Asia/Shanghai
 ## => Author and Social
 ##############################
 author:
-  type      : organization # "person" (default), "organization"
-  name      : daze
+  type      : person # "person" (default), "organization"
+  name      : DaZe
   url       :
   avatar    : /assets/apple-touch-icon.png
   bio: >
-    I am an amazing Coder.
+    I am an amazing Coder!!
   email     : 13516627732@163.com
   facebook  :
   twitter   :
@@ -185,11 +185,11 @@ collections:
     output: true
 
 defaults:
-  - scope:
-      path: "test"
-    values:
-      articles:
-        excerpt_type: html
+  # - scope:
+  #     path: "test"
+  #   values:
+  #     articles:
+  #       excerpt_type: html
   - scope:
       path: "home"
     values:
@@ -211,22 +211,22 @@ defaults:
       type: articles
     values:
       show_date: false
-  - scope:
-      path: ""
-      type: languages
-    values:
-      layout: article
-  - scope:
-      path: "_docs/en"
-    values:
-      layout: article
-      sidebar:
-        nav: docs-en
-      license: true
-      aside:
-        toc: true
-      show_edit_on_github: false
-      show_date: false
+  # - scope:
+  #     path: ""
+  #     type: languages
+  #   values:
+  #     layout: article
+  # - scope:
+  #     path: "_docs/en"
+  #   values:
+  #     layout: article
+  #     sidebar:
+  #       nav: docs-en
+  #     license: true
+  #     aside:
+  #       toc: true
+  #     show_edit_on_github: false
+  #     show_date: false
   - scope:
       path: "_docs/zh"
     values:
