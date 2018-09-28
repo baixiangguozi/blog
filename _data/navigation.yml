@@ -1,4 +1,6 @@
 header:
+  - title:      随笔
+    url:        /suibi/code-fragment
   - titles:
       en:       Archive
       zh:       归档
@@ -11,3 +13,34 @@ header:
       zh-Hans:  关于
       zh-Hant:  關於
     url:        /about.html
+
+
+suibi:
+  - title:      随笔
+    children:
+      - title:  代码片段
+        url:    /suibi/code-fragment
+  - title:      定制
+    children:
+      - title:  配置
+        url:    /docs/zh/configuration
+      - title:  导航栏
+        url:    /docs/zh/navigation
+      - title:  布局
+        url:    /docs/zh/layouts
+      - title:  Logo 和 Favicon
+        url:    /docs/zh/logo-and-favicon
+      - title:  作者
+        url:    /docs/zh/authors
+  - title:      内容
+    children:
+      - title:  撰写博客
+        url:    /docs/zh/writing-posts
+      - title:  Markdown 增强
+        url:    /docs/zh/markdown-enhancements
+      - title:  附加样式
+        url:    /docs/zh/additional-styles
+  - title:      其他语言
+    children:
+      - title:  English
+        url:    /docs/en/quick-start
