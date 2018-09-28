@@ -3,8 +3,8 @@ header:
   #   url:        /home/
   - title:      笔记
     url:        /notes/quick-start
-  - title:      随笔
-    url:        /docs/zh/quick-start
+  # - title:      随笔
+  #   url:        /docs/zh/quick-start
   # - title:      Samples
   #   url:        /samples.html
   - title:      Archive
@@ -21,6 +21,8 @@ notes:
         url:    /notes/quick-start
       - title:  从 1.x 升级到 2.x
         url:    /notes/update-form-1-to-2
+      - title:  配置
+        url:    /notes/configuration
 
 docs-zh:
   - title:      开始
