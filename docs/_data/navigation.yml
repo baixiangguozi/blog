@@ -1,6 +1,6 @@
 header:
-  # - title:      Home
-  #   url:        /test/
+  - title:      Home
+    url:        /home/
   - title:      随笔
     url:        /docs/en/quick-start
   # - title:      Samples

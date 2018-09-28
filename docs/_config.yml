@@ -168,10 +168,10 @@ exclude:
   # - /docs
   - /node_modules
   # - /screenshots
-  # - /test
+  - /test
   - /vendor
-  - /_posts
-  - /index.html
+  # - /_posts
+  # - /index.html
 
 collections_dir: docs
 collections:
@@ -191,6 +191,11 @@ defaults:
       articles:
         excerpt_type: html
   - scope:
+      path: "home"
+    values:
+      articles:
+        excerpt_type: html
+  - scope:
       path: ""
       type: posts
     values:
@@ -199,7 +204,7 @@ defaults:
       category: post
       aside:
         toc: true
-      show_edit_on_github: true
+      show_edit_on_github: false
       pageview: true
   - scope:
       path: ""
@@ -220,7 +225,7 @@ defaults:
       license: true
       aside:
         toc: true
-      show_edit_on_github: true
+      show_edit_on_github: false
       show_date: false
   - scope:
       path: "_docs/zh"
@@ -232,7 +237,7 @@ defaults:
       aside:
         toc: true
       lang: zh
-      show_edit_on_github: true
+      show_edit_on_github: false
       show_date: false
 
 
