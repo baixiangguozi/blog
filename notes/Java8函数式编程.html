@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T01:47:04+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T02:02:22+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -1153,9 +1153,20 @@
 合并结果，返回最后的值。</p>
 </blockquote>
 
-<center>
-![使用 fork/join 分解合并问题](https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C%E5%8C%BA%E5%88%AB.png)
+<center>![使用 fork/join 分解合并问题](https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C%E5%8C%BA%E5%88%AB.png)
 </center>
+
+<center>
+![使用 fork/join 分解合并问题](https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png)
+</center>
+
+<p><img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png" alt="使用 fork/join 分解合并问题" /></p>
+
+<div style="text-align: center">
+<img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png" />
+</div>
+
+<p><img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png" alt="使用 fork/join 分解合并问题" height="50%" width="50%" /></p>
 
 <p>并行求和例子中，假设并行流将我们的工作分解开，在一个四核的机器上并行执行。</p>
 
@@ -1171,6 +1182,24 @@
     <p>然后合并结果。就是 sum 操作，但这也可能是 reduce、collect 或其他终结操作。</p>
   </li>
 </ol>
+
+<p>根据问题的分解方式，初始的数据源的特性变得尤其重要，它影响了分解的性能。直观上看，能重复将数据结构对半分解的难易程度，
+决定了分解操作的快慢。能对半分解同时意 味着待分解的值能够被等量地分解。</p>
+
+<ul>
+  <li>
+    <p>性能好
+ArrayList、数组或 IntStream.range，这些数据结构支持随机读取，也就是说它们能轻 而易举地被任意分解。</p>
+  </li>
+  <li>
+    <p>性能一般
+HashSet、TreeSet，这些数据结构不易公平地被分解，但是大多数时候分解是可能的。</p>
+  </li>
+  <li>
+    <p>性能差
+有些数据结构难于分解，比如，可能要花 O(N) 的时间复杂度来分解问题。其中包括 LinkedList，对半分解太难了。还有 Streams.iterate 和 BufferedReader.lines，它们 长度未知，因此很难预测该在哪里分解。</p>
+  </li>
+</ul>
 
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
@@ -1251,7 +1280,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T01:47:04+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T02:02:22+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
