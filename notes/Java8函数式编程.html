@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T00:44:02+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T00:50:06+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -1051,7 +1051,7 @@
 <p class="info"><strong>并发是两个任务共享时间段，并行则是两个任务在同一时间发生，比如运行在多核 CPU 上。
 如果一个程序要运行两个任务，并且只有一个 CPU 给它们分配了不同时间片，那么这就是并发，而不是并行。</strong></p>
 
-<p><img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/并发和并行区别.jpg" alt="Fork" /></p>
+<p><img src="https://github.com/baixiangguozi/blog/blob/gh-pages/docs/assets/notes/Java8-Functional-Programming/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C%E5%8C%BA%E5%88%AB.png" alt="并行和并发区别" /></p>
 
 <p>并行化是指为缩短任务执行时间，将一个任务分解成几部分，然后并行执行。这和顺序执行的任务量是一样的，
 区别就像用更多的马车拉车，花费的时间自然减少了。实际上，和 顺序执行相比，并行化执行任务时，CPU 承载的工作量更大。</p>
@@ -1059,6 +1059,10 @@
 <p>数据并行化是指将数据分块，为每块数据分配单独的处理单元。</p>
 
 <p>当需要在大量数据上执行同样的操作时，数据并行化很管用。它将问题分解为可在多块数 据上求解的形式，然后对每块数据执行运算，最后将各数据块上得到的结果汇总，从而获 得最终答案。</p>
+
+<h3 id="62-为什么并行化如此重要">6.2 为什么并行化如此重要</h3>
+
+<p>阿姆达尔定律是一个简单规则，预测了搭载多核处理器的机器提升程序速度的理论最大 值。以一段完全串行化的程序为例，如果将其一半改为并行化处理，则不管增加多少处理 器，其理论上的最大速度只是原来的 2 倍。有了大量的处理器后，现在这已经是现实了， 问题的求解时间将完全取决于它可被分解成几个部分。</p>
 
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
@@ -1139,7 +1143,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T00:44:02+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T00:50:06+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
