@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T02:02:22+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T02:17:49+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -1153,20 +1153,13 @@
 合并结果，返回最后的值。</p>
 </blockquote>
 
-<center>![使用 fork/join 分解合并问题](https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C%E5%8C%BA%E5%88%AB.png)
-</center>
-
-<center>
-![使用 fork/join 分解合并问题](https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png)
-</center>
-
-<p><img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png" alt="使用 fork/join 分解合并问题" /></p>
+<p>&lt;center&gt;
+<img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png" alt="使用 fork/join 分解合并问题" />
+&lt;/center&gt;</p>
 
 <div style="text-align: center">
 <img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png" />
 </div>
-
-<p><img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/fork%3Ajoin.png" alt="使用 fork/join 分解合并问题" height="50%" width="50%" /></p>
 
 <p>并行求和例子中，假设并行流将我们的工作分解开，在一个四核的机器上并行执行。</p>
 
@@ -1198,6 +1191,69 @@ HashSet、TreeSet，这些数据结构不易公平地被分解，但是大多数
   <li>
     <p>性能差
 有些数据结构难于分解，比如，可能要花 O(N) 的时间复杂度来分解问题。其中包括 LinkedList，对半分解太难了。还有 Streams.iterate 和 BufferedReader.lines，它们 长度未知，因此很难预测该在哪里分解。</p>
+  </li>
+</ul>
+
+<p>在讨论流中单独操作每一块的种类时，可以分成两种不同的操作:无状态的和有状态的。 无状态操作整个过程中不必维护状态，有状态操作则有维护状态所需的开销和限制。</p>
+
+<p>如果能避开有状态，选用无状态操作，就能获得更好的并行性能。无状态操作包括 map、 filter 和 flatMap，有状态操作包括 sorted、distinct 和 limit。</p>
+
+<h3 id="67-并行化数组操作">6.7 并行化数组操作</h3>
+
+<p>数组上的并行化操作</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">方法名</th>
+      <th style="text-align: left">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">parallelPrefix</td>
+      <td style="text-align: left">任意给定一个函数，计算数组的和</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">parallelSetAll</td>
+      <td style="text-align: left">使用 Lambda 表达式更新数组元素</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">parallelSort</td>
+      <td style="text-align: left">并行化对数组元素排序</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>使用 for 循环初始化数组</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span><span class="o">[]</span> <span class="nf">imperativeInitilize</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+     <span class="kt">double</span><span class="o">[]</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+     <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">values</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+         <span class="n">values</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+     <span class="o">}</span>
+     <span class="k">return</span> <span class="n">values</span><span class="o">;</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<p>使用并行化数组操作初始化数组</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span><span class="o">[]</span> <span class="nf">parallelInitialize</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+     <span class="kt">double</span><span class="o">[]</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+     <span class="n">Arrays</span><span class="o">.</span><span class="na">parallelSetAll</span><span class="o">(</span><span class="n">values</span><span class="o">,</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span><span class="o">);</span>
+     <span class="k">return</span> <span class="n">values</span><span class="o">;</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="68-要点回顾">6.8 要点回顾</h3>
+
+<ul>
+  <li>
+    <p>数据并行化是把工作拆分，同时在多核CPU上执行的方式。</p>
+  </li>
+  <li>
+    <p>如果使用流编写代码，可通过调用 parallel 或者 parallelStream 方法实现数据并行化操作。</p>
+  </li>
+  <li>
+    <p>影响性能的五要素是:数据大小、源数据结构、值是否装箱、可用的CPU核数量，以及处理每个元素所花的时间。</p>
   </li>
 </ul>
 
@@ -1280,7 +1336,7 @@ HashSet、TreeSet，这些数据结构不易公平地被分解，但是大多数
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T02:02:22+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T02:17:49+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
