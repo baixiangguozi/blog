@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T12:44:22+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T14:11:40+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -531,12 +531,13 @@
 <p>上面例子可被分解为两步更简单的操作：</p>
 <ul>
   <li>找出所有来自伦敦的艺术家；</li>
-  <li>计算他们的人数。
-每种操作都对应 Stream 接口的一个方法</li>
+  <li>计算他们的人数。</li>
 </ul>
 
+<p>每种操作都对应 Stream 接口的一个方法</p>
+
 <blockquote>
-  <p>Stream 是用函数式编程方式在集合类上进行复杂操作的工具。</p>
+  <p><strong>Stream 是用函数式编程方式在集合类上进行复杂操作的工具。</strong></p>
 </blockquote>
 
 <h3 id="32-实现机制">3.2 实现机制</h3>
@@ -552,13 +553,12 @@
 像filter这样只描述stream，最终不产生新集合的方法叫作<strong>惰性求值方法</strong>；
 而像count这样最终会从stream产生值的方法叫作<strong>及早求值方法</strong></p>
 
-<p>判断一个操作是惰性求值还是及早求值：<em>**只需看它的返回值</em></p>
+<p>判断一个操作是惰性求值还是及早求值：<strong>只需看它的返回值</strong></p>
 <ul>
   <li>返回值是stream，那么是惰性求值</li>
-  <li>返回值是另一个值或为空，那么是及早求值</li>
+  <li>返回值是另一个值或为空，那么是及早求值
+为什么要区分惰性求值和及早求值：</li>
 </ul>
-
-<p>为什么要区分惰性求值和及早求值：</p>
 
 <p>例如：如果要找出大于10的第一数字，那么并不需要和所有元素去做比较，只要找出第一个匹配的元素就够了。
 这也意味着可以在集合类上级联多种操作，但迭代只需一次。</p>
@@ -596,6 +596,91 @@
 <p>Stream 上常用的操作之一是求最大值和最小值。</p>
 
 <p>查找 Stream 中的最大或最小元素，首先要考虑的是用什么作为排序的指标。</p>
+
+<h4 id="336-通用模式">3.3.6 通用模式</h4>
+
+<p>使用 for 循环查找最短曲目</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">List</span><span class="o">&lt;</span><span class="n">Track</span><span class="o">&gt;</span> <span class="n">tracks</span> <span class="o">=</span> <span class="n">asList</span><span class="o">(</span><span class="k">new</span> <span class="n">Track</span><span class="o">(</span><span class="s">"Bakai"</span><span class="o">,</span> <span class="mi">524</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">Track</span><span class="o">(</span><span class="s">"Violets for Your Furs"</span><span class="o">,</span> <span class="mi">378</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">Track</span><span class="o">(</span><span class="s">"Time Was"</span><span class="o">,</span> <span class="mi">451</span><span class="o">));</span>
+
+   <span class="n">Track</span> <span class="n">shortestTrack</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Track</span> <span class="n">track</span> <span class="o">:</span> <span class="n">tracks</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">track</span><span class="o">.</span><span class="na">getLength</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">shortestTrack</span><span class="o">.</span><span class="na">getLength</span><span class="o">())</span> <span class="o">{</span>
+          <span class="n">shortestTrack</span> <span class="o">=</span> <span class="n">track</span><span class="o">;</span>
+      <span class="o">}</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<p>reduce 模式</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">Object</span> <span class="n">accumulator</span> <span class="o">=</span> <span class="n">initialValue</span><span class="o">;</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">element</span> <span class="o">:</span> <span class="n">collection</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">accumulator</span> <span class="o">=</span> <span class="n">combine</span><span class="o">(</span><span class="n">accumulator</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+<ul>
+  <li>赋给 accumulator 一个初始值：initialValue</li>
+  <li>调用 combine 函数，拿 accumulator 和集合中的每个元素做运算，并将运算结果赋给 accumulator</li>
+  <li>最后 accumulator 的值就是想要的结果</li>
+</ul>
+
+<h4 id="337-reduce">3.3.7 reduce</h4>
+
+<p>reduce 操作可以实现从一组值中生成一个值。</p>
+
+<p>使用 reduce 求和</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">element</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">element</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>展开 reduce 操作</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">BinaryOperator</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">accumulator</span> <span class="o">=</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">element</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">element</span><span class="o">;</span>
+     <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">accumulator</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span>
+             <span class="n">accumulator</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span>
+                     <span class="n">accumulator</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">),</span>
+                     <span class="mi">2</span><span class="o">),</span> <span class="mi">3</span><span class="o">);</span>
+</code></pre></div></div>
+<p>reduce过程的中间值</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>元素</th>
+      <th style="text-align: center">acc</th>
+      <th style="text-align: center">结果</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>N/A</td>
+      <td style="text-align: center">N/A</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">6</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>使用命令式编程方式求和</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">intacc</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">element</span> <span class="o">:</span> <span class="n">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">acc</span> <span class="o">=</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">element</span><span class="o">;</span>
+   <span class="o">}</span>
+   <span class="n">assertEquals</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="n">acc</span><span class="o">);</span>
+</code></pre></div></div>
 
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
@@ -676,7 +761,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T12:44:22+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T14:11:40+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
