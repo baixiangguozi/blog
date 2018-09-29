@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T01:04:36+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T01:17:48+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -1051,7 +1051,9 @@
 <p class="info"><strong>并发是两个任务共享时间段，并行则是两个任务在同一时间发生，比如运行在多核 CPU 上。
 如果一个程序要运行两个任务，并且只有一个 CPU 给它们分配了不同时间片，那么这就是并发，而不是并行。</strong></p>
 
-<p><img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C%E5%8C%BA%E5%88%AB.png" alt="并行和并发区别" /></p>
+<p>&lt;div align=center&gt;
+<img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C%E5%8C%BA%E5%88%AB.png" alt="并行和并发区别" />
+&lt;/div&gt;</p>
 
 <p>并行化是指为缩短任务执行时间，将一个任务分解成几部分，然后并行执行。这和顺序执行的任务量是一样的，
 区别就像用更多的马车拉车，花费的时间自然减少了。实际上，和 顺序执行相比，并行化执行任务时，CPU 承载的工作量更大。</p>
@@ -1088,6 +1090,21 @@
              <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="nl">Track:</span><span class="o">:</span><span class="n">getLength</span><span class="o">)</span>
              <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
    <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="65-限制">6.5 限制</h3>
+
+<p>为了发挥并行流框架的优势，写代码时必须遵 守一些规则和限制。</p>
+
+<p>调用 reduce 方法，初始值可以为任意值，为了让其在并行化时能工作正常，初值必须为组合函数的<strong>恒等值</strong>。
+拿恒等值和其他值做 reduce 操作时，其他值保持不变。比如，使用 reduce操作求和，组合函数为(acc, element) -&gt; acc + element，则其初值必须为0，因为任何数字加 0，值不变。</p>
+
+<p>reduce 操作的另一个限制是组合操作必须符合<strong>结合律</strong>。这意味着只要序列的值不变，组合操作的顺序不重要。</p>
+
+<p>加法和乘法满足结合律</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   (4+2)+1=4+(2+1)=7
+
+   (4*2)*1=4*(2*1)=8
 </code></pre></div></div>
 
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
@@ -1169,7 +1186,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T01:04:36+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T01:17:48+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
