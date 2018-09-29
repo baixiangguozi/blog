@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T17:03:57+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T18:12:37+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -895,6 +895,155 @@
   </li>
 </ul>
 
+<h2 id="第-5-章-高级集合类和收集器">第 5 章 高级集合类和收集器</h2>
+
+<h3 id="51-方法引用">5.1 方法引用</h3>
+
+<blockquote>
+  <p><strong>有时候，当我们想要实现一个函数式接口的那个抽象方法，但是已经有类实现了我们想要的功能，
+这个时候我们就可以用方法引用来直接使用现有类的功能去实现。</strong></p>
+</blockquote>
+
+<p>方法引用共分为四类：</p>
+
+<p>1.类名::静态方法名</p>
+
+<p>2.对象::实例方法名</p>
+
+<p>3.类名::实例方法名</p>
+
+<p>4.类名::new</p>
+
+<h3 id="52-元素顺序">5.2 元素顺序</h3>
+
+<p>直观上看，流是有序的，因为流中的元素都是按顺序处理的。这种顺序称为出现顺序。
+出现顺序的定义依赖于数据源和对流的操作。</p>
+
+<p>在一个有序集合中创建一个流时，流中的元素就按出现顺序排列。</p>
+
+<p>顺序测试永远通过</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="n">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+   <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">sameOrder</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+   <span class="n">assertEquals</span><span class="o">(</span><span class="n">numbers</span><span class="o">,</span> <span class="n">sameOrder</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>如果集合本身就是无序的，由此生成的流也是无序的。</p>
+
+<p>顺序测试不能保证每次通过</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">asList</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+   <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">sameOrder</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+
+   <span class="c1">// 该断言有时会失败</span>
+   <span class="n">assertEquals</span><span class="o">(</span><span class="n">numbers</span><span class="o">,</span> <span class="n">sameOrder</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="53-使用收集器">5.3 使用收集器</h3>
+
+<h4 id="531-转换成其他集合">5.3.1 转换成其他集合</h4>
+
+<p>有一些收集器可以生成其他集合。比如前面已经见过的 toList，生成了 java.util.List 类 的实例</p>
+
+<h4 id="532-转换成值">5.3.2 转换成值</h4>
+
+<p>还可以利用收集器让流生成一个值。maxBy 和 minBy 允许用户按某种特定的顺序生成一个 值。</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">&gt;</span> <span class="nf">biggestGroup</span> <span class="o">(</span><span class="n">Stream</span> <span class="o">&lt;</span> <span class="n">Artist</span> <span class="o">&gt;</span> <span class="n">artists</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">Function</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">getCount</span> <span class="o">=</span> <span class="n">artist</span> <span class="o">-&gt;</span> <span class="n">artist</span><span class="o">.</span><span class="na">getMembers</span><span class="o">().</span><span class="na">count</span><span class="o">();</span>
+      <span class="k">return</span> <span class="n">artists</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">maxBy</span><span class="o">(</span><span class="n">comparing</span><span class="o">(</span><span class="n">getCount</span><span class="o">)));</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="533-数据分块">5.3.3 数据分块</h4>
+
+<p>另外一个常用的流操作是将其分解成两个集合。</p>
+
+<p>将艺术家组成的流分成乐队和独唱歌手两部分</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">&gt;&gt;</span> <span class="nf">bandsAndSolo</span> <span class="o">(</span><span class="n">Stream</span> <span class="o">&lt;</span> <span class="n">Artist</span> <span class="o">&gt;</span> <span class="n">artists</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">artists</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">partitioningBy</span><span class="o">(</span><span class="n">artist</span> <span class="o">-&gt;</span> <span class="n">artist</span><span class="o">.</span><span class="na">isSolo</span><span class="o">()));</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="534-数据分组">5.3.4 数据分组</h4>
+
+<p>数据分组是一种更自然的分割数据操作，与将数据分成 ture 和 false 两部分不同，可以使用任意值对数据分组</p>
+
+<p>使用主唱对专辑分组</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Album</span><span class="o">&gt;&gt;</span> <span class="nf">albumsByArtist</span> <span class="o">(</span><span class="n">Stream</span> <span class="o">&lt;</span> <span class="n">Album</span> <span class="o">&gt;</span> <span class="n">albums</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">albums</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">groupingBy</span><span class="o">(</span><span class="n">album</span> <span class="o">-&gt;</span> <span class="n">album</span><span class="o">.</span><span class="na">getMainMusician</span><span class="o">()));</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="535-字符串">5.3.5 字符串</h4>
+
+<p>很多时候，收集流中的数据都是为了在最后生成一个字符串。</p>
+
+<p>使用 for 循环格式化艺术家姓名</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">(</span><span class="s">"["</span><span class="o">);</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Artist</span> <span class="n">artist</span> <span class="o">:</span> <span class="n">artists</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">builder</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">", "</span><span class="o">);</span>
+      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">artist</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+      <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+   <span class="o">}</span>
+   <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"]"</span><span class="o">);</span>
+   <span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>使用流和收集器格式化艺术家姓名</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">String</span> <span class="n">result</span> <span class="o">=</span>
+          <span class="n">artists</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                  <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Artist:</span><span class="o">:</span><span class="n">getName</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="s">", "</span><span class="o">,</span> <span class="s">"["</span><span class="o">,</span> <span class="s">"]"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<h4 id="536-组合收集器">5.3.6 组合收集器</h4>
+
+<p>计算每个艺术家专辑数的简单方式</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">Map</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Album</span><span class="o">&gt;&gt;</span> <span class="n">albumsByArtist</span>
+          <span class="o">=</span> <span class="n">albums</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">groupingBy</span><span class="o">(</span><span class="n">album</span> <span class="o">-&gt;</span> <span class="n">album</span><span class="o">.</span><span class="na">getMainMusician</span><span class="o">()));</span>
+   <span class="n">Map</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numberOfAlbums</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Entry</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Album</span><span class="o">&gt;&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">albumsByArtist</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+      <span class="n">numberOfAlbums</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">(),</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">().</span><span class="na">size</span><span class="o">());</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+<p>先分组，后计数。上面的代码也是命令式的代码，不能自动适应并行化操作。</p>
+
+<p>使用收集器计算每个艺术家的专辑数</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="nf">numberOfAlbums</span><span class="o">(</span><span class="n">Stream</span><span class="o">&lt;</span><span class="n">Album</span><span class="o">&gt;</span> <span class="n">albums</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="n">albums</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">groupingBy</span><span class="o">(</span><span class="n">album</span> <span class="o">-&gt;</span> <span class="n">album</span><span class="o">.</span><span class="na">getMainMusician</span><span class="o">(),</span>
+             <span class="n">counting</span><span class="o">()));</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<p>mapping 允许在收集器的容器上执行类似 map 的操作。但是需要指明使用什么样的集合类 存储结果，比如 toList。</p>
+
+<p>mapping 收集器和 map 方法一样，接受一个 Function 对象作为参数</p>
+
+<p>使用收集器求每个艺术家的专辑名</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="nf">nameOfAlbums</span><span class="o">(</span><span class="n">Stream</span><span class="o">&lt;</span><span class="n">Album</span><span class="o">&gt;</span> <span class="n">albums</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="n">albums</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">groupingBy</span><span class="o">(</span><span class="nl">Album:</span><span class="o">:</span><span class="n">getMainMusician</span><span class="o">,</span>
+             <span class="n">mapping</span><span class="o">(</span><span class="nl">Album:</span><span class="o">:</span><span class="n">getName</span><span class="o">,</span> <span class="n">toList</span><span class="o">())));</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>这两个例子中我们都用到了第二个收集器，用以收集最终结果的一个子集。这些收集器叫作<strong>下游收集器</strong></p>
+</blockquote>
+
+<h3 id="55-要点回顾">5.5 要点回顾</h3>
+
+<ul>
+  <li>
+    <p>方法引用是一种引用方法的轻量级语法，形如:ClassName::methodName。</p>
+  </li>
+  <li>
+    <p>收集器可用来计算流的最终值，是reduce方法的模拟。</p>
+  </li>
+  <li>
+    <p>Java 8 提供了收集多种容器类型的方式，同时允许用户自定义收集器。</p>
+  </li>
+</ul>
+
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
 <ol>
@@ -974,7 +1123,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T17:03:57+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T18:12:37+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
