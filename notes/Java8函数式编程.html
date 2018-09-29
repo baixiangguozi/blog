@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T14:47:09+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T16:14:30+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -712,6 +712,87 @@
   </li>
 </ul>
 
+<h2 id="第-4-章-类库">第 4 章 类库</h2>
+
+<h3 id="41-在代码中使用lambda表达式">4.1 在代码中使用Lambda表达式</h3>
+
+<p>从调用 Lambda 表达式的代码的角度来看，它和调用一个普通接口方法没什么区别。</p>
+
+<p>使用 isDebugEnabled 方法降低日志性能开销</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Logger</span><span class="o">();</span>
+   <span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+      <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Look at this: "</span> <span class="o">+</span> <span class="n">expensiveOperation</span><span class="o">());</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<p>使用 Lambda 表达式简化日志代码</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Logger</span><span class="o">();</span>
+   <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="s">"Look at this: "</span> <span class="o">+</span> <span class="n">expensiveOperation</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>启用 Lambda 表达式实现的日志记录器</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">debug</span> <span class="o">(</span><span class="n">Supplier</span> <span class="o">&lt;</span> <span class="n">String</span> <span class="o">&gt;</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+          <span class="n">debug</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+      <span class="o">}</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+<p>调用get()方法，相当于调用传入的 Lambda 表达式。</p>
+
+<h3 id="42-基本类型">4.2 基本类型</h3>
+
+<p>整形在内存中占用 4 字节，整形对象却要占用 16 字节。</p>
+
+<p>将基本类型转换为装箱类型，称为装箱，反之则称为拆箱，两者都需要额外的计算开销。
+对于需要大量数值运算的算法来说，装箱和拆箱的计算开销，以及装箱类型占用的额外内存，会明显减缓程序的运行速度。</p>
+
+<p>为了减少这些性能开销，stream 类的某些方法对基本类型和装箱类型做了区分。
+对基本类型做特殊处理的方法在命名上明确的规范。</p>
+
+<ul>
+  <li>
+    <p>如果方法返回类型为基本类型，则在基本类型前加 To，如 ToLongFunction</p>
+  </li>
+  <li>
+    <p>如果参数是基本类型，则不加前缀只需类型名即可，如 LongFunction</p>
+  </li>
+  <li>
+    <p>如果高价函数使用基本类型，则在操作后加后缀 To 再加基本类型，如 mapToLong</p>
+  </li>
+</ul>
+
+<p>使用 summaryStatistics 方法统计曲目长度</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printTrackLengthStatistics</span> <span class="o">(</span><span class="n">Album</span> <span class="n">album</span><span class="o">){</span>
+      <span class="n">IntSummaryStatistics</span> <span class="n">trackLengthStats</span>
+              <span class="o">=</span> <span class="n">album</span><span class="o">.</span><span class="na">getTracks</span><span class="o">()</span>
+              <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">track</span> <span class="o">-&gt;</span> <span class="n">track</span><span class="o">.</span><span class="na">getLength</span><span class="o">())</span>
+              <span class="o">.</span><span class="na">summaryStatistics</span><span class="o">();</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"Max: %d, Min: %d, Ave: %f, Sum: %d"</span><span class="o">,</span>
+              <span class="n">trackLengthStats</span><span class="o">.</span><span class="na">getMax</span><span class="o">(),</span>
+              <span class="n">trackLengthStats</span><span class="o">.</span><span class="na">getMin</span><span class="o">(),</span>
+              <span class="n">trackLengthStats</span><span class="o">.</span><span class="na">getAverage</span><span class="o">(),</span>
+              <span class="n">trackLengthStats</span><span class="o">.</span><span class="na">getSum</span><span class="o">());</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="43-重载解析">4.3 重载解析</h3>
+
+<p>总而言之，Lambda 表达式作为参数时，其类型由它的目标类型推导得出，推导过程遵循 如下规则:</p>
+
+<ul>
+  <li>
+    <p>如果只有一个可能的目标类型，由相应函数接口里的参数类型推导得出</p>
+  </li>
+  <li>
+    <p>如果有多个可能的目标类型，由最具体的类型推导得出</p>
+  </li>
+  <li>
+    <p>如果有多个可能的目标类型且最具体的类型不明确，则需认为指定类型</p>
+  </li>
+</ul>
+
+<h3 id="44-functionalinterface">4.4 @FunctionalInterface</h3>
+
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
 <ol>
@@ -791,7 +872,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T14:47:09+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T16:14:30+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
