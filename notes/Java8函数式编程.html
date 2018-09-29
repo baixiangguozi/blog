@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T18:12:37+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-30T00:44:02+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -371,7 +371,7 @@
    <span class="n">BinaryOperator</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">addExplicit</span> <span class="o">=</span> <span class="o">(</span><span class="n">Long</span> <span class="n">x</span><span class="o">,</span> <span class="n">Long</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>
 </code></pre></div></div>
 
-<p class="info"><strong>目标类型是指 Lambda 表达式所在上下文环境的类型。比如，将 Lambda 表达式赋值给一个局部变量，
+<p><strong>目标类型是指 Lambda 表达式所在上下文环境的类型。比如，将 Lambda 表达式赋值给一个局部变量，
 或传递给一个方法作为参数，局部变量或方法参数的类型就是 Lambda 表达式的目标类型。</strong></p>
 
 <h3 id="23-引用值而不是变量">2.3 引用值，而不是变量</h3>
@@ -1044,6 +1044,22 @@
   </li>
 </ul>
 
+<h2 id="第-6-章-数据并行化">第 6 章 数据并行化</h2>
+
+<h3 id="61-并行和并发">6.1 并行和并发</h3>
+
+<p class="info"><strong>并发是两个任务共享时间段，并行则是两个任务在同一时间发生，比如运行在多核 CPU 上。
+如果一个程序要运行两个任务，并且只有一个 CPU 给它们分配了不同时间片，那么这就是并发，而不是并行。</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/baixiangguozi/blog/master/docs/assets/notes/Java8-Functional-Programming/并发和并行区别.jpg" alt="Fork" /></p>
+
+<p>并行化是指为缩短任务执行时间，将一个任务分解成几部分，然后并行执行。这和顺序执行的任务量是一样的，
+区别就像用更多的马车拉车，花费的时间自然减少了。实际上，和 顺序执行相比，并行化执行任务时，CPU 承载的工作量更大。</p>
+
+<p>数据并行化是指将数据分块，为每块数据分配单独的处理单元。</p>
+
+<p>当需要在大量数据上执行同样的操作时，数据并行化很管用。它将问题分解为可在多块数 据上求解的形式，然后对每块数据执行运算，最后将各数据块上得到的结果汇总，从而获 得最终答案。</p>
+
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
 <ol>
@@ -1061,7 +1077,7 @@
   <li>
     <p>如果你打算在 GitHub Pages 上搭建你的网站，你可以直接 fork <a href="https://github.com/kitian616/jekyll-TeXt-theme">jekyll-TeXt-theme</a> 到你的仓库，然后将其重命名为 <strong>USERNAME.github.io</strong> — 这里的 <strong>USERNAME</strong> 是你的 GitHub 用户名。</p>
 
-    <p><img src="https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/docs/assets/images/github-fork.jpg" alt="Fork" /></p>
+    <p><img src="https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/docs/assets/images/github-fork.jpg" alt="并行和并发区别" /></p>
 
     <p><img src="https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/docs/assets/images/github-rename-repo.jpg" alt="Rename" /></p>
   </li>
@@ -1123,7 +1139,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T18:12:37+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-30T00:44:02+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
