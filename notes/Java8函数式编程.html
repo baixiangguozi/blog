@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T16:14:30+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T17:03:57+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -741,7 +741,7 @@
 
 <h3 id="42-基本类型">4.2 基本类型</h3>
 
-<p>整形在内存中占用 4 字节，整形对象却要占用 16 字节。</p>
+<p>整型在内存中占用 4 字节，整型对象却要占用 16 字节。</p>
 
 <p>将基本类型转换为装箱类型，称为装箱，反之则称为拆箱，两者都需要额外的计算开销。
 对于需要大量数值运算的算法来说，装箱和拆箱的计算开销，以及装箱类型占用的额外内存，会明显减缓程序的运行速度。</p>
@@ -792,6 +792,108 @@
 </ul>
 
 <h3 id="44-functionalinterface">4.4 @FunctionalInterface</h3>
+
+<p>每个用作函数接口的接口都应该添加 @FunctionalInterface 这个注释。</p>
+
+<p>@FunctionalInterface 该注释会强制 javac 检查一个接口是否符合函数接口的标准。如果该注释添加给一个枚举 类型、类或另一个注释，或者接口包含不止一个抽象方法，javac 就会报错</p>
+
+<h3 id="46-默认方法">4.6 默认方法</h3>
+
+<p>Collection 接口中增加了新的 stream 方法，如何能让 MyCustomList 类在不知道该方法的
+情况下通过编译?Java 8通过如下方法解决该问题:Collection接口告诉它所有的子类: “如果你没有实现 stream 方法，就使用我的吧。”接口中这样的方法叫作默认方法，在任何
+接口中，无论函数接口还是非函数接口，都可以使用该方法。</p>
+
+<p>默认方法示例:forEach 实现方式</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="k">default</span> <span class="kt">void</span> <span class="nf">forEach</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">action</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">for</span> <span class="o">(</span><span class="nl">Tt:</span>
+          <span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">action</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+     <span class="o">}</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+<p>默认方法是指接口中定义的包含方法体的方法，方法名有default关键字做前缀</p>
+
+<h3 id="47-多重继承">4.7 多重继承</h3>
+
+<p>接口允许多重继承，因此有可能碰到两个接口包含签名相同的默认方法的情况。</p>
+
+<p>三定律：</p>
+
+<ul>
+  <li>
+    <p>类胜于接口。如果在继承链中有方法体或抽象的方法声明，那么就可以忽略接口中定义的方法</p>
+  </li>
+  <li>
+    <p>子类胜于父类。如果一个接口继承了另一个接口，且两个接口都定义了一个默认方法，那么子类中定义的方法胜出</p>
+  </li>
+  <li>
+    <p>没有规则三。如果上面两天规则不适用，子类要么需要实现该方法，要么将该方法声明为抽象方法</p>
+  </li>
+</ul>
+
+<h3 id="49-接口的静态方法">4.9 接口的静态方法</h3>
+
+<p>Stream 是个接口， Stream.of是接口的静态方法。这也是Java 8中添加的一个新的语言特性，旨在帮助编写 类库的开发人员，但对于日常应用程序的开发人员也同样适用。</p>
+
+<h3 id="410-optional">4.10 Optional</h3>
+
+<p>reduce 方法有两种形式，一种如前面出现的需要有一个初始值，另一种变式则不需要有初始值。</p>
+
+<p>没有初始值的情况下，reduce 的第一步使用 Stream 中的前两个元素。有时，reduce 操作不存在有意义的初始值，这样做就是有意义的，此时，reduce 方法返回一个 Optional 对象。</p>
+
+<p>使用 Optional 对象有两个目的:</p>
+
+<ul>
+  <li>
+    <p>Optional 对象鼓励程序员适时检查 变量是否为空，以避免代码缺陷</p>
+  </li>
+  <li>
+    <p>它将一个类的 API 中可能为空的值文档化，这比 阅读实现代码要简单很多</p>
+  </li>
+</ul>
+
+<p>使用工厂方法 of，可以从某个值创建出一个 Optional 对象。Optional 对象相当于值的容器，而该值可以通过 get 方法提取。</p>
+
+<p>创建某个值的 Optional 对象</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"a"</span><span class="o">);</span>
+   <span class="n">assertEquals</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="n">a</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>创建一个空的 Optional 对象，并检查其是否有值</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">Optional</span> <span class="n">emptyOptional</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+
+   <span class="c1">// 将一个空值转换成 Optional 对象</span>
+   <span class="n">Optional</span> <span class="n">alsoEmpty</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+
+   <span class="c1">// isPresent 方法表示一个 Optional 对象里是否有值</span>
+   <span class="n">assertFalse</span><span class="o">(</span><span class="n">emptyOptional</span><span class="o">.</span><span class="na">isPresent</span><span class="o">());</span>
+</code></pre></div></div>
+<blockquote>
+  <p><strong>使用 Optional 对象的方式之一是在调用 get() 方法前，先使用 isPresent 检查 Optional 对象是否有值。</strong></p>
+</blockquote>
+
+<p>使用 orElse 和 orElseGet 方法</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="c1">// orElse 方法，当 Optional 对象为空时，该方法提供了一个 备选值</span>
+   <span class="n">assertEquals</span><span class="o">(</span><span class="s">"b"</span><span class="o">,</span> <span class="n">emptyOptional</span><span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">"b"</span><span class="o">));</span>
+
+   <span class="c1">// 如果计算备选值在计算上太过繁琐，即可使用 orElseGet 方法。该方法接受一个 Supplier 对象，</span>
+   <span class="c1">// 只有在 Optional 对象真正为空时才会调用</span>
+   <span class="n">assertEquals</span><span class="o">(</span><span class="s">"c"</span><span class="o">,</span> <span class="n">emptyOptional</span><span class="o">.</span><span class="na">orElseGet</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="s">"c"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<h3 id="411-要点回顾">4.11 要点回顾</h3>
+
+<ul>
+  <li>
+    <p>使用为基本类型定制的Lambda表达式和Stream，如IntStream可以显著提升系统性能</p>
+  </li>
+  <li>
+    <p>默认方法是指接口中定义的包含方法体的方法，方法名有default关键字做前缀</p>
+  </li>
+  <li>
+    <p>在一个值可能为空的建模情况下，使用Optional对象能替代使用null值</p>
+  </li>
+</ul>
 
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
@@ -872,7 +974,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T16:14:30+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T17:03:57+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
