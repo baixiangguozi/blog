@@ -295,7 +295,7 @@
 
              <div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T14:11:40+08:00"><div class="js-article-content"><div class="layout--article">
+            <div class="col-main cell--auto"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Java8函数式编程</h1></header></div><meta itemprop="headline" content="Java8函数式编程"><meta itemprop="author" content="DaZe"/><meta itemprop="datePublished" content="2018-09-29T14:47:09+08:00"><div class="js-article-content"><div class="layout--article">
 
   <div class="article__content" itemprop="articleBody"><p>TeXt 是一款 100% 兼容 GitHub Pages 的 Jekyll 主题，你可以通过 Fork、下载或主题等方式安装。</p>
 
@@ -645,29 +645,29 @@
 <table>
   <thead>
     <tr>
-      <th>元素</th>
+      <th style="text-align: center">元素</th>
       <th style="text-align: center">acc</th>
       <th style="text-align: center">结果</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>N/A</td>
+      <td style="text-align: center">N/A</td>
       <td style="text-align: center">N/A</td>
       <td style="text-align: center">0</td>
     </tr>
     <tr>
-      <td>1</td>
+      <td style="text-align: center">1</td>
       <td style="text-align: center">0</td>
       <td style="text-align: center">1</td>
     </tr>
     <tr>
-      <td>2</td>
+      <td style="text-align: center">2</td>
       <td style="text-align: center">1</td>
       <td style="text-align: center">3</td>
     </tr>
     <tr>
-      <td>3</td>
+      <td style="text-align: center">3</td>
       <td style="text-align: center">3</td>
       <td style="text-align: center">6</td>
     </tr>
@@ -681,6 +681,36 @@
    <span class="o">}</span>
    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="n">acc</span><span class="o">);</span>
 </code></pre></div></div>
+
+<h3 id="36-高阶函数">3.6 高阶函数</h3>
+
+<p><strong>高价函数是指接受另外一个函数作为参数，或返回一个函数的函数。</strong></p>
+
+<h3 id="37-正确使用lambda表达式">3.7 正确使用Lambda表达式</h3>
+
+<p>本章介绍的概念能够帮助用户写出更简单的代码，因为这些概念描述了数据上的操作，<strong>明确了要达成什么转化，
+而不是说明如何转化</strong></p>
+
+<p>明确要达成什么转化，而不是说明如何转化的另外一层含义在于写出的函数没有副作用。
+这点很重要，这样只通过函数的返回值就能充分理解函数的全部作用。</p>
+
+<blockquote>
+  <p>没有副作用的函数不会改变程序或外界的状态。</p>
+</blockquote>
+
+<h3 id="38-要点回顾">3.8 要点回顾</h3>
+
+<ul>
+  <li>
+    <p>内部迭代将更多控制权交给了集合类</p>
+  </li>
+  <li>
+    <p>和Iterator类似，Stream是一种内部迭代方式</p>
+  </li>
+  <li>
+    <p>将Lambda表达式和Stream上的方法结合起来，可以完成很多常见的集合操作</p>
+  </li>
+</ul>
 
 <p>这种方式要求你的项目里包含所有的主题文件，你可以通过以下途径来安装：</p>
 
@@ -761,7 +791,7 @@
 <p>如果你的网站是搭建在其他服务器上的，那么你就需要来自己编译了。首先运行命令 <code class="highlighter-rouge">JEKYLL_ENV=production bundle exec jekyll build</code> 编译你的网站，然后将编译的文件（位于 <em>_site</em> 目录）更新到你的服务器上。</p>
 </div>
 
-  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T14:11:40+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-09-29T14:47:09+08:00"><!-- this will show at every article content's bottom --><div class="article__license"><div class="license">
     <p>本文遵守 <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International</a> 许可协议。
       <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
         <img alt="Attribution 4.0 International" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
